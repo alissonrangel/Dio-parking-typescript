@@ -66,11 +66,24 @@
   <input type="text" id="placa" placeholder="Digite a placa do veículo: " autocomplete="off" /> -->
   <header class="container">
     <div class="logo">
-      <h1>DIO Estacionamento</h1>
+      <h1>Sistema de Estacionamento</h1>
     </div>
   </header>
-  <main class="container">
-    <h3 class="m-4">20 centavos por minuto!!!</h3>
+  <main class="container">        
+    <fieldset>
+      <legend>Cadastre o valor do preço por minuto</legend>
+      <div class="mb-3 row">
+        <label for="preco" class="col-form-label">Preço por minuto</label>
+        <div class="input-group col-sm-10">
+          <span class="input-group-text"><Ri:t></Ri:t>$</span>
+          <input type="number" step="0.01" class="form-control" id="preco" value="0.20" placeholder="Digite o valor do minuto: ">
+        </div>
+      </div>      
+      <div class="button">
+        <button id="preco-por-minuto" class="btn btn-primary">Cadastrar preço por minuto</button>
+      </div> 
+    </fieldset> 
+    <h3 class="m-4" id="banner"></h3>
     <fieldset>
       <legend>Cadastre um veículo</legend>
       <div class="mb-3 row">

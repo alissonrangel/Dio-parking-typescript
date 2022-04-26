@@ -5,13 +5,32 @@ type Veiculo = {
 }
 
 (function () {
-  const $ = (query: string): HTMLInputElement | null => document.querySelector(query);
+  const $ = (query: string): HTMLInputElement | null => document.querySelector(query);  
 
   function calcTempo(milis: number) {
     const min = Math.floor(milis / 60000);
     const seg = Math.floor((milis % 60000) / 1000);
 
     return `${min}m e ${seg}s`;
+  }
+
+  function lerPrecoPorMinuto(): number {
+    if (localStorage.preco) {
+      return localStorage.preco
+    } else {
+      localStorage.setItem('preco', '0.20');
+    }
+    return localStorage.preco
+  }
+
+  function renderBanner() {
+    $('#banner')!.innerHTML = "";      
+
+    const precoPorMinute = lerPrecoPorMinuto();
+
+    $('#preco')!.value = precoPorMinute.toString();
+
+    $('#banner')!.innerHTML = `R$ ${precoPorMinute} por minuto!!!`;
   }
 
   function patio() {
@@ -55,7 +74,7 @@ type Veiculo = {
       const {nome, entrada} = ler().find( (veic) => veic.placa === placa ) as Veiculo;
       const milis = new Date().getTime() - new Date(entrada).getTime();        
       const tempo = calcTempo(milis) ;
-      if (!confirm(`O veículo ${nome} permaneceu por ${tempo} e custou R$ ${ (Math.floor(milis / 60000) * 0.2).toFixed(2)} . Deseja encerar?`)) {
+      if (!confirm(`O veículo ${nome} permaneceu por ${tempo} e custou R$ ${ (Math.floor(milis / 60000) * lerPrecoPorMinuto()).toFixed(2)} . Deseja encerar?`)) {
         return;
       }
       salvar(ler().filter((veiculo) => veiculo.placa !== placa));
@@ -78,6 +97,7 @@ type Veiculo = {
   }
   
   patio().render();
+  renderBanner();
 
   $("#cadastrar")?.addEventListener("click", () => {
     const nome = $("#nome")?.value;
@@ -95,5 +115,12 @@ type Veiculo = {
     let plac = document.getElementById("placa") as HTMLInputElement;;
     name.value = "";
     plac.value = "";
+  })
+
+  $("#preco-por-minuto")?.addEventListener("click", () => {  
+    let preco: number = parseFloat($("#preco")?.value); 
+
+    localStorage.setItem("preco", preco.toFixed(2).toString());  
+    renderBanner();
   })
 })();

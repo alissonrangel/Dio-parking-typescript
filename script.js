@@ -1,10 +1,25 @@
 (function () {
-    var _a;
+    var _a, _b;
     const $ = (query) => document.querySelector(query);
     function calcTempo(milis) {
         const min = Math.floor(milis / 60000);
         const seg = Math.floor((milis % 60000) / 1000);
         return `${min}m e ${seg}s`;
+    }
+    function lerPrecoPorMinuto() {
+        if (localStorage.preco) {
+            return localStorage.preco;
+        }
+        else {
+            localStorage.setItem('preco', '0.20');
+        }
+        return localStorage.preco;
+    }
+    function renderBanner() {
+        $('#banner').innerHTML = "";
+        const precoPorMinute = lerPrecoPorMinuto();
+        $('#preco').value = precoPorMinute.toString();
+        $('#banner').innerHTML = `R$ ${precoPorMinute} por minuto!!!`;
     }
     function patio() {
         function ler() {
@@ -40,7 +55,7 @@
             const { nome, entrada } = ler().find((veic) => veic.placa === placa);
             const milis = new Date().getTime() - new Date(entrada).getTime();
             const tempo = calcTempo(milis);
-            if (!confirm(`O veículo ${nome} permaneceu por ${tempo} e custou R$ ${(Math.floor(milis / 60000) * 0.2).toFixed(2)} . Deseja encerar?`)) {
+            if (!confirm(`O veículo ${nome} permaneceu por ${tempo} e custou R$ ${(Math.floor(milis / 60000) * lerPrecoPorMinuto()).toFixed(2)} . Deseja encerar?`)) {
                 return;
             }
             salvar(ler().filter((veiculo) => veiculo.placa !== placa));
@@ -58,6 +73,7 @@
         };
     }
     patio().render();
+    renderBanner();
     (_a = $("#cadastrar")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
         var _a, _b;
         const nome = (_a = $("#nome")) === null || _a === void 0 ? void 0 : _a.value;
@@ -73,5 +89,11 @@
         ;
         name.value = "";
         plac.value = "";
+    });
+    (_b = $("#preco-por-minuto")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+        var _a;
+        let preco = parseFloat((_a = $("#preco")) === null || _a === void 0 ? void 0 : _a.value);
+        localStorage.setItem("preco", preco.toFixed(2).toString());
+        renderBanner();
     });
 })();
