@@ -11,8 +11,9 @@
 ## extras:
 - bootstrap to make the layout more beautiful;
 - per minute pricing;
-- Background image.
+- Background image;
+- Logo image.
 
 [link to site](https://alissonrangel.github.io/Dio-parking-typescript/)
 
-![dio parking picture](https://github.com/alissonrangel/Dio-parking-typescript/blob/main/images/dio-parking.png?raw=true)
+![dio parking picture](https://github.com/alissonrangel/Dio-parking-typescript/blob/main/images/dio-parking2.png?raw=true)

@@ -51,11 +51,13 @@ type Veiculo = {
     function adicionar(veiculo: Veiculo, salva?: boolean) {
 
       const row = document.createElement("tr");
-    
+      
+      const date = new Date(veiculo.entrada).toLocaleString();
+      
       row.innerHTML = `
         <td>${veiculo.nome}</td>
         <td>${veiculo.placa}</td>
-        <td>${veiculo.entrada}</td>
+        <td>${date}</td>
         <td class="tdbtn">
           <button class="delete btn btn-danger btn-sm" data-placa="${veiculo.placa}">x</button>
         </td>
